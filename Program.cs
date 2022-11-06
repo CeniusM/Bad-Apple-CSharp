@@ -2,14 +2,17 @@
 {
     private static void Main(string[] args)
     {
+        FileChangeThingy.IDoStuff.Start1();
+        FileChangeThingy.IDoStuff.Start2();
         /*Don't mind me, just doing some codey stuff, for me it took quite a while to be able to refer to the project location.
         The only reason I did it this way, is because I work on both Windows and Linux, over multiple computers, which means this will make it easier.*/
         Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
         String debug = Directory.GetCurrentDirectory();
-        String allFrames = debug.Remove(debug.Length-17) + "/allFrames.txt";
+        String allFrames = debug.Remove(debug.Length - 17) + "/allFrames.txt";
         //Since the video is encoded in black on white, we need to set our console to that too.
         Console.BackgroundColor = ConsoleColor.White;
         Console.ForegroundColor = ConsoleColor.Black;
+        Console.Title = "Bad Apple C#";
         //We start by making a try catch. Why? Because that's what the example online did.
         string line;
         try
@@ -30,17 +33,19 @@
                 //The switch case here just checks for if the current line has an S in it, since S is what we use to identify where the "frames" split.
                 switch (line)
                 {
-                    case var containsS when line.Contains("S"):
+                    case var containsS when line.Contains("SKIP"):
                         skip = true;
+                        //This makes it so we can skip the line with SKIP in it, then it looks a bit better :)
+                        line = sr.ReadLine();
+                        line = sr.ReadLine();
                         break;
                     default:
                         skip = false;
+                        //This is again a code segment from Microsoft, what it does is print our "line" then it jumps to the next one, a bit like a type writer.
+                        Console.WriteLine(line);
+                        line = sr.ReadLine();
                         break;
                 }
-
-                //This is again a code segment from Microsoft, what it does is print our "line" then it jumps to the next one, a bit like a type writer.
-                Console.WriteLine(line);
-                line = sr.ReadLine();
 
                 /*And here we again have our skip feature, if an S was found, and skip was initiated, 
                 then this will let us wait for enough time to emulate a frame, and run the code */
